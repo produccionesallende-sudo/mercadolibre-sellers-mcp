@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "start": "node src/index.js",
-    "test": "node --test --test-concurrency=1 \"test/**/*.test.js\"",
+    "test": "node --test --test-concurrency=1 test/unidad.test.js test/sesiones.test.js test/herramientas.test.js test/servidor.test.js",
     "auditoria": "npm audit --omit=dev && node scripts/buscar-secretos.js",
     "secretos": "node scripts/buscar-secretos.js",
     "plantilla": "node plantillas/generar.js"
