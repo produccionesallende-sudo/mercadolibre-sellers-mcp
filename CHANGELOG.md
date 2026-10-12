@@ -1,5 +1,15 @@
 # Historial de cambios
 
+## 1.1.0 — 2026-10-12
+
+- Receptor HTTP de notificaciones de Mercado Libre (`src/notificaciones.js`,
+  `POST /notifications`, `GET /health`): proceso separado del MCP, sin
+  dependencias nuevas, responde 200 de inmediato, filtra por `ML_CLIENT_ID`,
+  logs redactados, archivo JSONL opcional.
+- `Dockerfile`, `render.yaml` y `docs/despliegue-notificaciones.md`.
+- 8 pruebas nuevas (`test/notificaciones.test.js`). El servidor MCP por stdio
+  no cambia.
+
 ## 1.0.0 — 2026-10-12
 
 Primera versión, escrita desde cero.

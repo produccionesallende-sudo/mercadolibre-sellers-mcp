@@ -1,0 +1,13 @@
+node_modules
+.git
+.env
+.env.*
+!.env.example
+test
+docs
+skills
+panel
+plantillas
+scripts
+*.md
+.github

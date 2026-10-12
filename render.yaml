@@ -1,0 +1,21 @@
+# Blueprint de Render para el RECEPTOR DE NOTIFICACIONES de Mercado Libre.
+# Render → New → Blueprint → elegir este repositorio. No despliega el MCP
+# por stdio (ese corre en tu computadora dentro de Claude).
+services:
+  - type: web
+    name: mercadolibre-notificaciones
+    runtime: node
+    plan: free            # cambiar a "starter" para que no se duerma por inactividad
+    region: ohio
+    branch: main
+    buildCommand: npm ci --omit=dev --ignore-scripts
+    startCommand: node src/notificaciones.js
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NOTIFICACIONES_RUTA
+        value: /notifications
+      - key: ML_CLIENT_ID
+        sync: false       # se carga a mano en el panel de Render (nunca en el repo)

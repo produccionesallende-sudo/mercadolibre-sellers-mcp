@@ -1,6 +1,6 @@
 {
   "name": "mercadolibre-sellers-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Servidor MCP propio para conectar Claude con cuentas de vendedores de Mercado Libre. Solo lectura por defecto, tokens cifrados solo en tu computadora, sin servidores intermediarios.",
   "private": true,
   "type": "module",
@@ -17,14 +17,17 @@
     "README.md",
     "LICENSE",
     "NOTICE.md",
-    ".env.example"
+    ".env.example",
+    "Dockerfile",
+    "render.yaml"
   ],
   "scripts": {
     "start": "node src/index.js",
-    "test": "node --test --test-concurrency=1 test/unidad.test.js test/sesiones.test.js test/herramientas.test.js test/servidor.test.js",
+    "test": "node --test --test-concurrency=1 test/unidad.test.js test/sesiones.test.js test/herramientas.test.js test/servidor.test.js test/notificaciones.test.js",
     "auditoria": "npm audit --omit=dev && node scripts/buscar-secretos.js",
     "secretos": "node scripts/buscar-secretos.js",
-    "plantilla": "node plantillas/generar.js"
+    "plantilla": "node plantillas/generar.js",
+    "start:notificaciones": "node src/notificaciones.js"
   },
   "keywords": [
     "mercadolibre",

@@ -363,11 +363,24 @@ También incluye `panel/visualizador.html` (tablero interactivo de
 publicaciones) y `plantillas/` (4 plantillas SVG de imágenes de venta con
 generador `node plantillas/generar.js`).
 
-## 16. Para desarrolladores
+## 16. Notificaciones de Mercado Libre (receptor HTTP)
+
+Mercado Libre pide una **"Notificaciones callbacks URL"** pública HTTPS al
+configurar la aplicación. El repositorio incluye un receptor **separado** del
+MCP (`node src/notificaciones.js`, endpoint `POST /notifications`,
+`GET /health`) que responde 200 al instante y registra cada notificación sin
+datos sensibles. Solo necesita `ML_CLIENT_ID`; nunca recibe el Client Secret
+ni tokens. Se despliega en Render (blueprint `render.yaml`) o cualquier host
+de contenedores (`Dockerfile`). Guía paso a paso y URL de callback en
+[docs/despliegue-notificaciones.md](docs/despliegue-notificaciones.md).
+
+## 17. Para desarrolladores
 
 ```
 src/
   index.js              punto de entrada (stdio)
+  notificaciones.js     receptor HTTP de notificaciones (proceso separado)
+  notificaciones/receptor.js
   servidor.js           McpServer, política de escritura, auditoría
   config.js             variables de entorno, SOLO_LECTURA, allowlist de hosts
   almacen.js            tokens cifrados + bloqueo entre procesos
@@ -378,7 +391,7 @@ src/
   meli/sesiones.js      cuentas, tokens, cliente autenticado
   meli/recursos.js      /items/bulk, órdenes, envíos (formato nuevo), anunciante
   herramientas/lectura/ · herramientas/escritura/ · herramientas/local/
-test/                   50 pruebas con simulador local (test/ayuda/mock-meli.js)
+test/                   58 pruebas con simulador local (test/ayuda/mock-meli.js)
 scripts/buscar-secretos.js
 docs/                   auditoría de referencia, paridad, decisiones, conectar.html
 ```
