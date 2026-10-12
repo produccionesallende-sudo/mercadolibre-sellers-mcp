@@ -1,0 +1,41 @@
+# Dependencias
+node_modules/
+
+# Secretos y configuración local: NUNCA se suben
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Datos locales del MCP (tokens, vigilancia, auditoría) si alguien apunta
+# ML_CONFIG_DIR dentro del repo por error
+.mercadolibre-sellers-mcp/
+cuentas.json
+cuentas.json.*
+vigilancia.json
+auditoria-escrituras.log
+*.lock
+
+# Configuración de Claude Desktop copiada por error
+claude_desktop_config.json
+
+# Logs y temporales
+*.log
+npm-debug.log*
+coverage/
+.tmp/
+tmp/
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Salidas generadas
+salida/
+*.generado.svg

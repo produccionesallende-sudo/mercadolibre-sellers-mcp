@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" font-family="sans-serif">
+  <!-- Plantilla: qué incluye. Campos: {{TITULO}}, {{INC1}}..{{INC6}} en grilla 2x3. Sin foto. -->
+  <defs>
+    <g id="tilde">
+      <circle cx="0" cy="0" r="30" fill="#1b2a41"/>
+      <path d="M -14 1 L -4 11 L 15 -10" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </defs>
+
+  <rect width="1200" height="1200" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="18" fill="#1b2a41"/>
+
+  <!-- Título -->
+  <text x="600" y="150" font-size="56" font-weight="800" fill="#1b2a41" text-anchor="middle">{{TITULO}}</text>
+  <text x="600" y="200" font-size="28" font-weight="600" fill="#5f6977" text-anchor="middle" letter-spacing="3">QUÉ INCLUYE</text>
+  <line x1="440" y1="236" x2="760" y2="236" stroke="#1b2a41" stroke-width="6"/>
+
+  <!-- Columna izquierda -->
+  <rect x="80" y="320" width="500" height="200" rx="24" fill="#f3f5f7" stroke="#d9dfe6" stroke-width="3"/>
+  <use href="#tilde" x="150" y="420"/>
+  <text x="210" y="434" font-size="36" font-weight="700" fill="#1b2a41">{{INC1}}</text>
+
+  <rect x="80" y="560" width="500" height="200" rx="24" fill="#f3f5f7" stroke="#d9dfe6" stroke-width="3"/>
+  <use href="#tilde" x="150" y="660"/>
+  <text x="210" y="674" font-size="36" font-weight="700" fill="#1b2a41">{{INC2}}</text>
+
+  <rect x="80" y="800" width="500" height="200" rx="24" fill="#f3f5f7" stroke="#d9dfe6" stroke-width="3"/>
+  <use href="#tilde" x="150" y="900"/>
+  <text x="210" y="914" font-size="36" font-weight="700" fill="#1b2a41">{{INC3}}</text>
+
+  <!-- Columna derecha -->
+  <rect x="620" y="320" width="500" height="200" rx="24" fill="#f3f5f7" stroke="#d9dfe6" stroke-width="3"/>
+  <use href="#tilde" x="690" y="420"/>
+  <text x="750" y="434" font-size="36" font-weight="700" fill="#1b2a41">{{INC4}}</text>
+
+  <rect x="620" y="560" width="500" height="200" rx="24" fill="#f3f5f7" stroke="#d9dfe6" stroke-width="3"/>
+  <use href="#tilde" x="690" y="660"/>
+  <text x="750" y="674" font-size="36" font-weight="700" fill="#1b2a41">{{INC5}}</text>
+
+  <rect x="620" y="800" width="500" height="200" rx="24" fill="#f3f5f7" stroke="#d9dfe6" stroke-width="3"/>
+  <use href="#tilde" x="690" y="900"/>
+  <text x="750" y="914" font-size="36" font-weight="700" fill="#1b2a41">{{INC6}}</text>
+
+  <text x="600" y="1110" font-size="24" font-weight="500" fill="#5f6977" text-anchor="middle">Todo lo que recibís en tu compra.</text>
+
+  <rect x="0" y="1182" width="1200" height="18" fill="#1b2a41"/>
+</svg>

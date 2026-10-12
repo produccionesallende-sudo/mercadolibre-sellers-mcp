@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src https: data:">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <title>Tablero de publicaciones</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --fondo: #f3f5f7;
+      --tarjeta: #ffffff;
+      --texto: #1b1f24;
+      --texto-suave: #5f6977;
+      --borde: #d9dfe6;
+      --acento: #1d5fd1;
+      --acento-texto: #ffffff;
+      --seleccion: #1d5fd1;
+      --seleccion-fondo: #e9f0fd;
+      --placeholder: #e4e8ee;
+      --verde: #2ca84a;
+      --amarillo: #e7b008;
+      --rojo: #d93a3a;
+      --gris: #9aa3af;
+      --sombra: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --fondo: #0f1317;
+        --tarjeta: #1a2027;
+        --texto: #e8ecf1;
+        --texto-suave: #9aa5b3;
+        --borde: #2d3640;
+        --acento: #5b93f5;
+        --acento-texto: #0b1220;
+        --seleccion: #5b93f5;
+        --seleccion-fondo: #1a2a45;
+        --placeholder: #242c35;
+        --sombra: 0 1px 3px rgba(0,0,0,0.4);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--fondo);
+      color: var(--texto);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.45;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--tarjeta);
+      border-bottom: 1px solid var(--borde);
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 1.15rem;
+      margin: 0;
+      flex: 1 1 auto;
+    }
+    .filtros {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .filtros button {
+      background: transparent;
+      color: var(--texto);
+      border: 1px solid var(--borde);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    .filtros button.activo {
+      background: var(--acento);
+      color: var(--acento-texto);
+      border-color: var(--acento);
+    }
+    .contador {
+      font-size: 0.9rem;
+      color: var(--texto-suave);
+    }
+    .btn-principal {
+      background: var(--acento);
+      color: var(--acento-texto);
+      border: 0;
+      border-radius: 8px;
+      padding: 9px 16px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-principal:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-secundario {
+      background: transparent;
+      color: var(--texto);
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+    main {
+      padding: 16px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .grilla {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .tarjeta {
+      background: var(--tarjeta);
+      border: 2px solid var(--borde);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: var(--sombra);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.12s, transform 0.12s;
+      position: relative;
+    }
+    .tarjeta:hover { transform: translateY(-2px); }
+    .tarjeta.seleccionada {
+      border-color: var(--seleccion);
+      background: var(--seleccion-fondo);
+    }
+    .tarjeta:focus-visible {
+      outline: 3px solid var(--acento);
+      outline-offset: 2px;
+    }
+    .marca {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--tarjeta);
+      border: 2px solid var(--borde);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--acento-texto);
+    }
+    .tarjeta.seleccionada .marca {
+      background: var(--seleccion);
+      border-color: var(--seleccion);
+    }
+    .foto {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--placeholder);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .foto img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .foto .sin-foto {
+      color: var(--texto-suave);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 12px;
+    }
+    .cuerpo {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1 1 auto;
+    }
+    .semaforo-linea {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--texto-suave);
+    }
+    .luz {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--gris);
+      flex-shrink: 0;
+    }
+    .luz.verde { background: var(--verde); }
+    .luz.amarillo { background: var(--amarillo); }
+    .luz.rojo { background: var(--rojo); }
+    .titulo {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .precio {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .datos {
+      display: flex;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--texto-suave);
+    }
+    .problemas {
+      margin: 4px 0 0;
+      padding-left: 18px;
+      font-size: 0.82rem;
+      color: var(--rojo);
+    }
+    .problemas li { margin-bottom: 2px; }
+    .sin-problemas {
+      font-size: 0.82rem;
+      color: var(--verde);
+      margin: 4px 0 0;
+    }
+    .vacio {
+      text-align: center;
+      color: var(--texto-suave);
+      padding: 48px 16px;
+    }
+    .respaldo {
+      margin-top: 20px;
+      background: var(--tarjeta);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .respaldo.oculto { display: none; }
+    .respaldo p { margin: 0 0 8px; font-size: 0.9rem; }
+    .respaldo textarea {
+      width: 100%;
+      min-height: 120px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.85rem;
+      background: var(--fondo);
+      color: var(--texto);
+      border: 1px solid var(--borde);
+      border-radius: 8px;
+      padding: 10px;
+      resize: vertical;
+    }
+    .aviso-flotante {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--texto);
+      color: var(--fondo);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+    .aviso-flotante.visible { opacity: 1; }
+    @media (max-width: 600px) {
+      header h1 { flex-basis: 100%; }
+      .grilla { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+      .cuerpo { padding: 10px; }
+      .precio { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tablero de publicaciones</h1>
+    <div class="filtros" role="group" aria-label="Filtros">
+      <button type="button" data-filtro="todas" class="activo">Todas</button>
+      <button type="button" data-filtro="problemas">Con problemas</button>
+      <button type="button" data-filtro="seleccionadas">Seleccionadas</button>
+    </div>
+    <span class="contador" id="contador"></span>
+    <button type="button" class="btn-secundario" id="btn-limpiar">Limpiar selección</button>
+    <button type="button" class="btn-principal" id="btn-copiar" disabled>Copiar pedido para Claude</button>
+  </header>
+
+  <main>
+    <div class="grilla" id="grilla"></div>
+    <div class="vacio oculto" id="vacio">No hay publicaciones para mostrar con este filtro.</div>
+    <section class="respaldo oculto" id="respaldo">
+      <p>No se pudo copiar automáticamente. Seleccioná el texto y copialo a mano:</p>
+      <textarea id="respaldo-texto" readonly></textarea>
+    </section>
+  </main>
+
+  <div class="aviso-flotante" id="aviso" role="status"></div>
+
+  <script>
+    /*DATOS*/ const DATOS = [
+      {
+        id: "MLA123456789",
+        titulo: "Mochila urbana impermeable 25 litros con puerto USB",
+        precio: 42000,
+        stock: 10,
+        vendidos: 55,
+        semaforo: "rojo",
+        problemas: ["Título sin palabras clave relevantes", "Solo 1 foto cargada", "Ficha técnica incompleta"],
+        foto: "https://http2.mlstatic.com/D_NQ_NP_2X_ejemplo-1-F.webp"
+      },
+      {
+        id: "MLA987654321",
+        titulo: "Auriculares inalámbricos con cancelación de ruido",
+        precio: 89990,
+        stock: 3,
+        vendidos: 120,
+        semaforo: "amarillo",
+        problemas: ["Stock bajo"],
+        foto: "https://http2.mlstatic.com/D_NQ_NP_2X_ejemplo-2-F.webp"
+      },
+      {
+        id: "MLA555666777",
+        titulo: "Botella térmica de acero inoxidable 1 litro",
+        precio: 18500,
+        stock: 48,
+        vendidos: 310,
+        semaforo: "verde",
+        problemas: [],
+        foto: ""
+      }
+    ]; /*FIN*/
+
+    (function () {
+      var seleccion = new Set();
+      var filtroActual = "todas";
+      var grilla = document.getElementById("grilla");
+      var vacio = document.getElementById("vacio");
+      var contador = document.getElementById("contador");
+      var btnCopiar = document.getElementById("btn-copiar");
+      var btnLimpiar = document.getElementById("btn-limpiar");
+      var respaldo = document.getElementById("respaldo");
+      var respaldoTexto = document.getElementById("respaldo-texto");
+      var aviso = document.getElementById("aviso");
+      var temporizadorAviso = null;
+
+      function mostrarAviso(texto) {
+        aviso.textContent = texto;
+        aviso.classList.add("visible");
+        clearTimeout(temporizadorAviso);
+        temporizadorAviso = setTimeout(function () { aviso.classList.remove("visible"); }, 2500);
+      }
+
+      function formatearPrecio(valor) {
+        if (typeof valor !== "number" || isNaN(valor)) return "Sin precio";
+        return "$ " + valor.toLocaleString("es-AR", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+      }
+
+      function textoSemaforo(valor) {
+        if (valor === "verde") return "En buen estado";
+        if (valor === "amarillo") return "Con observaciones";
+        if (valor === "rojo") return "Requiere atención";
+        return "Sin evaluar";
+      }
+
+      function tieneProblemas(item) {
+        return Array.isArray(item.problemas) && item.problemas.length > 0;
+      }
+
+      function filtrar() {
+        return DATOS.filter(function (item) {
+          if (filtroActual === "problemas") return tieneProblemas(item);
+          if (filtroActual === "seleccionadas") return seleccion.has(item.id);
+          return true;
+        });
+      }
+
+      function crearElemento(etiqueta, clase, texto) {
+        var el = document.createElement(etiqueta);
+        if (clase) el.className = clase;
+        if (texto !== undefined) el.textContent = texto;
+        return el;
+      }
+
+      function crearTarjeta(item) {
+        var tarjeta = crearElemento("article", "tarjeta");
+        tarjeta.tabIndex = 0;
+        tarjeta.setAttribute("role", "button");
+        tarjeta.setAttribute("aria-pressed", seleccion.has(item.id) ? "true" : "false");
+        if (seleccion.has(item.id)) tarjeta.classList.add("seleccionada");
+
+        var marca = crearElemento("div", "marca", seleccion.has(item.id) ? "✓" : "");
+        tarjeta.appendChild(marca);
+
+        var foto = crearElemento("div", "foto");
+        var placeholder = crearElemento("div", "sin-foto", "Sin imagen");
+        if (item.foto && /^https:\/\//.test(item.foto)) {
+          var img = document.createElement("img");
+          img.alt = item.titulo || item.id;
+          img.loading = "lazy";
+          img.addEventListener("error", function () {
+            img.remove();
+            foto.appendChild(placeholder);
+          });
+          img.src = item.foto;
+          foto.appendChild(img);
+        } else {
+          foto.appendChild(placeholder);
+        }
+        tarjeta.appendChild(foto);
+
+        var cuerpo = crearElemento("div", "cuerpo");
+
+        var linea = crearElemento("div", "semaforo-linea");
+        linea.appendChild(crearElemento("span", "luz " + (item.semaforo || "")));
+        linea.appendChild(crearElemento("span", "", textoSemaforo(item.semaforo) + " · " + item.id));
+        cuerpo.appendChild(linea);
+
+        cuerpo.appendChild(crearElemento("h2", "titulo", item.titulo || "(sin título)"));
+        cuerpo.appendChild(crearElemento("p", "precio", formatearPrecio(item.precio)));
+
+        var datos = crearElemento("div", "datos");
+        datos.appendChild(crearElemento("span", "", "Stock: " + (item.stock != null ? item.stock : "-")));
+        datos.appendChild(crearElemento("span", "", "Vendidos: " + (item.vendidos != null ? item.vendidos : "-")));
+        cuerpo.appendChild(datos);
+
+        if (tieneProblemas(item)) {
+          var lista = crearElemento("ul", "problemas");
+          item.problemas.forEach(function (p) { lista.appendChild(crearElemento("li", "", p)); });
+          cuerpo.appendChild(lista);
+        } else {
+          cuerpo.appendChild(crearElemento("p", "sin-problemas", "Sin problemas detectados"));
+        }
+
+        tarjeta.appendChild(cuerpo);
+
+        function alternar() {
+          if (seleccion.has(item.id)) seleccion.delete(item.id); else seleccion.add(item.id);
+          render();
+        }
+        tarjeta.addEventListener("click", alternar);
+        tarjeta.addEventListener("keydown", function (ev) {
+          if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); alternar(); }
+        });
+        return tarjeta;
+      }
+
+      function render() {
+        var visibles = filtrar();
+        grilla.textContent = "";
+        visibles.forEach(function (item) { grilla.appendChild(crearTarjeta(item)); });
+        vacio.classList.toggle("oculto", visibles.length > 0);
+        contador.textContent = seleccion.size + " seleccionada" + (seleccion.size === 1 ? "" : "s") +
+          " · " + visibles.length + " de " + DATOS.length + " visibles";
+        btnCopiar.disabled = seleccion.size === 0;
+      }
+
+      function armarPedido() {
+        var partes = DATOS.filter(function (item) { return seleccion.has(item.id); }).map(function (item) {
+          var detalle = tieneProblemas(item) ? " (problemas: " + item.problemas.join("; ") + ")" : " (sin problemas detectados)";
+          return item.id + detalle;
+        });
+        return "Quiero mejorar estas publicaciones: " + partes.join(", ") + ".";
+      }
+
+      function copiarPedido() {
+        var texto = armarPedido();
+        function fallback() {
+          respaldo.classList.remove("oculto");
+          respaldoTexto.value = texto;
+          respaldoTexto.focus();
+          respaldoTexto.select();
+          mostrarAviso("Texto listo abajo para copiar a mano.");
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(texto).then(function () {
+            respaldo.classList.add("oculto");
+            mostrarAviso("Pedido copiado. Pegalo en Claude.");
+          }, fallback);
+        } else {
+          fallback();
+        }
+      }
+
+      document.querySelectorAll(".filtros button").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          filtroActual = btn.getAttribute("data-filtro");
+          document.querySelectorAll(".filtros button").forEach(function (b) { b.classList.remove("activo"); });
+          btn.classList.add("activo");
+          render();
+        });
+      });
+
+      btnCopiar.addEventListener("click", copiarPedido);
+      btnLimpiar.addEventListener("click", function () {
+        seleccion.clear();
+        respaldo.classList.add("oculto");
+        render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

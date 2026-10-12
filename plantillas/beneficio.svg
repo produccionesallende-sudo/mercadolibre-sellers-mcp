@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" font-family="sans-serif">
+  <!-- Plantilla: beneficio principal. Campos: {{TITULO}}, {{BENEFICIO}}, {{DETALLE}}. Foto a la derecha. -->
+  <rect width="1200" height="1200" fill="#ffffff"/>
+
+  <!-- Franja superior de acento -->
+  <rect x="0" y="0" width="1200" height="18" fill="#1b2a41"/>
+
+  <!-- Bloque de texto (izquierda) -->
+  <rect x="80" y="160" width="12" height="120" fill="#1b2a41"/>
+  <text x="116" y="205" font-size="34" font-weight="700" fill="#5f6977" letter-spacing="2">{{TITULO}}</text>
+
+  <text x="116" y="330" font-size="64" font-weight="800" fill="#1b2a41">{{BENEFICIO}}</text>
+
+  <line x1="116" y1="380" x2="520" y2="380" stroke="#d9dfe6" stroke-width="4"/>
+
+  <text x="116" y="450" font-size="36" font-weight="500" fill="#3b4451">{{DETALLE}}</text>
+
+  <!-- Marco de la foto (derecha) -->
+  <rect x="620" y="140" width="500" height="920" rx="28" fill="#f3f5f7" stroke="#d9dfe6" stroke-width="3"/>
+  <image id="foto" x="650" y="170" width="440" height="860" href="" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Franja inferior -->
+  <rect x="0" y="1182" width="1200" height="18" fill="#1b2a41"/>
+</svg>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" font-family="sans-serif">
+  <!-- Plantilla: características. Campos: {{TITULO}}, {{CAR1}}..{{CAR4}}. Foto a la izquierda. -->
+  <rect width="1200" height="1200" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="18" fill="#1b2a41"/>
+
+  <!-- Marco de la foto (izquierda) -->
+  <rect x="80" y="140" width="500" height="920" rx="28" fill="#f3f5f7" stroke="#d9dfe6" stroke-width="3"/>
+  <image id="foto" x="110" y="170" width="440" height="860" href="" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Título (derecha) -->
+  <text x="640" y="230" font-size="54" font-weight="800" fill="#1b2a41">{{TITULO}}</text>
+  <line x1="640" y1="262" x2="1120" y2="262" stroke="#1b2a41" stroke-width="6"/>
+
+  <!-- Fila 1 -->
+  <circle cx="668" cy="400" r="22" fill="#1b2a41"/>
+  <text x="668" y="412" font-size="30" font-weight="800" fill="#ffffff" text-anchor="middle">1</text>
+  <text x="716" y="414" font-size="38" font-weight="600" fill="#1b2a41">{{CAR1}}</text>
+  <line x1="716" y1="450" x2="1120" y2="450" stroke="#e4e8ee" stroke-width="3"/>
+
+  <!-- Fila 2 -->
+  <circle cx="668" cy="560" r="22" fill="#1b2a41"/>
+  <text x="668" y="572" font-size="30" font-weight="800" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="716" y="574" font-size="38" font-weight="600" fill="#1b2a41">{{CAR2}}</text>
+  <line x1="716" y1="610" x2="1120" y2="610" stroke="#e4e8ee" stroke-width="3"/>
+
+  <!-- Fila 3 -->
+  <circle cx="668" cy="720" r="22" fill="#1b2a41"/>
+  <text x="668" y="732" font-size="30" font-weight="800" fill="#ffffff" text-anchor="middle">3</text>
+  <text x="716" y="734" font-size="38" font-weight="600" fill="#1b2a41">{{CAR3}}</text>
+  <line x1="716" y1="770" x2="1120" y2="770" stroke="#e4e8ee" stroke-width="3"/>
+
+  <!-- Fila 4 -->
+  <circle cx="668" cy="880" r="22" fill="#1b2a41"/>
+  <text x="668" y="892" font-size="30" font-weight="800" fill="#ffffff" text-anchor="middle">4</text>
+  <text x="716" y="894" font-size="38" font-weight="600" fill="#1b2a41">{{CAR4}}</text>
+
+  <rect x="0" y="1182" width="1200" height="18" fill="#1b2a41"/>
+</svg>
